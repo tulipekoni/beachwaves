@@ -16,10 +16,10 @@ import {
   Poppins_600SemiBold,
 } from "@expo-google-fonts/poppins";
 
-import { StackNavigator } from "./src/infrastructure/navigation/StackNavigator";
-import theme from "./src/infrastructure/theme";
+import colors from "./src/constraints/colors";
 import { store } from "./src/state/store";
-import { DataContextProvider } from "./src/services/DataContext";
+import { RootStack } from "./src/navigation/RootStack";
+import { AppContextProvider } from "./src/context/AppState";
 
 export default function App() {
   const [appIsReady, setAppIsReady] = useState(false);
@@ -68,16 +68,16 @@ export default function App() {
 
   return (
     <Provider store={store}>
-      <DataContextProvider>
+      <AppContextProvider>
         <View onLayout={onLayoutRootView} style={{ flex: 1 }}>
-          <ThemeProvider theme={theme}>
+          <ThemeProvider theme={colors}>
             <SafeAreaProvider>
-              <StackNavigator />
+              <RootStack />
             </SafeAreaProvider>
           </ThemeProvider>
         </View>
         <StatusBar style='auto' />
-      </DataContextProvider>
+      </AppContextProvider>
     </Provider>
   );
 }
