@@ -31,9 +31,8 @@ export const Search = ({ navigation }) => {
     appendToLastSearched(track);
     navigation.navigate("playing");
   }
-
   function onSearchPhraseChange(newSearchPhrase) {
-    setSearchPhrase(searchPhrase);
+    setSearchPhrase(newSearchPhrase);
 
     if (newSearchPhrase.length == 0) {
       setListData(lastSearched);

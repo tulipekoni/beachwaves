@@ -30,7 +30,6 @@ export const AppContextProvider = ({ children }) => {
 
   function setCurrentTrackFunction(track) {
     setCurrentTrack(track);
-    console.log(track);
     track.current = 0;
   }
 
