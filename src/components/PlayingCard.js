@@ -8,7 +8,7 @@ import { useNavigation } from "@react-navigation/native";
 import Donut from "./Donut";
 
 export const PlayingCard = () => {
-  const { currentSong } = useContext(AppContext);
+  const { currentTrack } = useContext(AppContext);
   const navigation = useNavigation();
   return (
     <TouchableWithoutFeedback onPress={() => navigation.navigate("playing")}>
@@ -22,7 +22,7 @@ export const PlayingCard = () => {
         }}
       >
         <Image
-          source={images[currentSong.image]}
+          source={images[currentTrack.image]}
           style={{ width: 75, height: 75, borderRadius: 25 }}
         ></Image>
         <View
@@ -31,8 +31,8 @@ export const PlayingCard = () => {
             justifyContent: "center",
           }}
         >
-          <Title color={colors.black}>{currentSong.title}</Title>
-          <Subtitle color={colors.black}>{currentSong.place}</Subtitle>
+          <Title color={colors.black}>{currentTrack.title}</Title>
+          <Subtitle color={colors.black}>{currentTrack.place}</Subtitle>
         </View>
         <View
           style={{

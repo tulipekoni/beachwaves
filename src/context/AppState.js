@@ -3,7 +3,7 @@ import { createContext, useState } from "react";
 export const AppContext = createContext();
 
 export const AppContextProvider = ({ children }) => {
-  const [currentSong, setCurrentSong] = useState({
+  const [currentTrack, setCurrentTrack] = useState({
     title: "Evening splash",
     place: "Costa rica",
     image: "eveningSplash",
@@ -11,8 +11,38 @@ export const AppContextProvider = ({ children }) => {
     current: 110,
   });
 
+  const [lastSearched, setLastSearched] = useState([
+    {
+      title: "Evening splash",
+      place: "Costa rica",
+      image: "eveningSplash",
+      length: 120,
+      current: 110,
+    },
+  ]);
+
+  function appendToLastSearched(item) {
+    setLastSearched([
+      item,
+      ...lastSearched.filter((track) => track.id != item.id),
+    ]);
+  }
+
+  function setCurrentTrackFunction(track) {
+    setCurrentTrack(track);
+    console.log(track);
+    track.current = 0;
+  }
+
   return (
-    <AppContext.Provider value={{ currentSong, setCurrentSong }}>
+    <AppContext.Provider
+      value={{
+        currentTrack,
+        setCurrentTrack: setCurrentTrackFunction,
+        lastSearched,
+        appendToLastSearched,
+      }}
+    >
       {children}
     </AppContext.Provider>
   );

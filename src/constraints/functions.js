@@ -35,8 +35,21 @@ const formatTime = (sec) => {
   return `${padTime(minutes, 1)}:${padTime(seconds, 2)}`;
 };
 
+// filter tracks with searchPhrase
+// /////////////////////////////////////////////////////////////////////////////
+const filterTracksWithSearchPhrase = (tracks, searchPrase) => {
+  const formattedSearchPhrase = searchPrase.toLowerCase();
+  const filteredData = tracks.filter(
+    (track) =>
+      track.place.toLowerCase().includes(formattedSearchPhrase) ||
+      track.title.toLowerCase().includes(formattedSearchPhrase)
+  );
+  return filteredData;
+};
+
 export default {
   cacheImages,
   loadAssetsAsync,
   formatTime,
+  filterTracksWithSearchPhrase,
 };

@@ -14,9 +14,9 @@ import { images } from "../constraints";
 import { colors, func } from "../constraints";
 
 export const Playing = ({ navigation }) => {
-  const { currentSong } = useContext(AppContext);
-  const timeElapsed = func.formatTime(currentSong.current);
-  const timeLeft = func.formatTime(currentSong.length - currentSong.current);
+  const { currentTrack } = useContext(AppContext);
+  const timeElapsed = func.formatTime(currentTrack.current);
+  const timeLeft = func.formatTime(currentTrack.length - currentTrack.current);
   return (
     <ScreenArea style={{ paddingTop: 30 }}>
       <View
@@ -29,7 +29,7 @@ export const Playing = ({ navigation }) => {
           justifyContent: "space-between",
         }}
       >
-        <BoxButton onPress={() => navigation.navigate("home")}>
+        <BoxButton onPress={() => navigation.goBack()}>
           <SvgBack />
         </BoxButton>
         <View style={{ opacity: 0.5 }}>
@@ -52,20 +52,20 @@ export const Playing = ({ navigation }) => {
       >
         <Image
           style={{ width: "100%", height: "100%", borderRadius: 55 }}
-          source={images[currentSong.image]}
+          source={images[currentTrack.image]}
         />
       </View>
       <View
         style={{ alignItems: "center", marginTop: 30, marginHorizontal: 44 }}
       >
-        <Title color={colors.black}>{currentSong.title}</Title>
-        <Subtitle>{currentSong.place}</Subtitle>
+        <Title color={colors.black}>{currentTrack.title}</Title>
+        <Subtitle>{currentTrack.place}</Subtitle>
         <View style={{ height: 21 }} />
         <Slider
           timeElapsed={timeElapsed}
           timeLeft={timeLeft}
-          current={currentSong.current}
-          max={currentSong.length}
+          current={currentTrack.current}
+          max={currentTrack.length}
         />
       </View>
       <View
