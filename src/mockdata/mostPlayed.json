@@ -3,18 +3,18 @@
     "id": 1,
     "image": "eveningSplash",
     "title": "Evening splash",
-    "seconds": 300
+    "duration": 300
   },
   {
     "id": 2,
     "image": "secretsOfAtlantis",
     "title": "Secrets of Atlantis",
-    "seconds": 300
+    "duration": 300
   },
   {
     "id": 3,
     "image": "waveLore",
     "title": "Wave lore",
-    "seconds": 300
+    "duration": 300
   }
 ]

@@ -12,11 +12,13 @@ import SvgPlay from "../icons/Svg.Play";
 import { AppContext } from "../context/AppState";
 import { images } from "../constraints";
 import { colors, func } from "../constraints";
+import SvgPause from "../icons/Svg.Pause";
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 export const Playing = ({ navigation }) => {
-  const { currentTrack } = useContext(AppContext);
-  const timeElapsed = func.formatTime(currentTrack.current);
-  const timeLeft = func.formatTime(currentTrack.length - currentTrack.current);
+  const { currentTrack, playState, setPaused, paused } = useContext(AppContext);
+  const timeElapsed = func.formatTime(playState.current);
+  const timeLeft = func.formatTime(playState.duration - playState.current);
   return (
     <ScreenArea style={{ paddingTop: 30 }}>
       <View
@@ -64,8 +66,8 @@ export const Playing = ({ navigation }) => {
         <Slider
           timeElapsed={timeElapsed}
           timeLeft={timeLeft}
-          current={currentTrack.current}
-          max={currentTrack.length}
+          current={playState.current}
+          max={playState.duration}
         />
       </View>
       <View
@@ -91,7 +93,8 @@ export const Playing = ({ navigation }) => {
         >
           <SvgBackward />
         </View>
-        <View
+        <TouchableWithoutFeedback
+          onPress={() => setPaused(!paused)}
           style={{
             width: 60,
             height: 60,
@@ -99,11 +102,15 @@ export const Playing = ({ navigation }) => {
             borderRadius: 30,
             alignItems: "center",
             justifyContent: "center",
-            paddingLeft: 3,
+            paddingLeft: paused ? 3 : 0,
           }}
         >
-          <SvgPlay fill={colors.white10} size={50} />
-        </View>
+          {paused ? (
+            <SvgPlay fill={colors.white10} size={50} />
+          ) : (
+            <SvgPause fill={colors.white10} size={50} />
+          )}
+        </TouchableWithoutFeedback>
         <View
           style={{
             width: 50,

@@ -2,6 +2,7 @@ import { Image } from "react-native";
 import { Asset } from "expo-asset";
 
 import preloadImages from "./preloadImages";
+import { useEffect, useRef } from "react";
 
 // cache images
 // /////////////////////////////////////////////////////////////////////////////
@@ -47,9 +48,31 @@ const filterTracksWithSearchPhrase = (tracks, searchPrase) => {
   return filteredData;
 };
 
+// custom react hook for intervals
+// /////////////////////////////////////////////////////////////////////////////
+function useInterval(callback, delay) {
+  const savedCallback = useRef();
+
+  useEffect(() => {
+    savedCallback.current = callback;
+  });
+
+  useEffect(() => {
+    function tick() {
+      savedCallback.current();
+    }
+
+    if (delay !== null) {
+      let id = setInterval(tick, delay);
+      return () => clearInterval(id);
+    }
+  }, [delay]);
+}
+
 export default {
   cacheImages,
   loadAssetsAsync,
   formatTime,
   filterTracksWithSearchPhrase,
+  useInterval,
 };

@@ -4,20 +4,20 @@
     "image": "eveningSplash",
     "title": "Evening splash",
     "place": "Costa rica",
-    "length": 300
+    "duration": 300
   },
   {
     "id": 2,
     "image": "secretsOfAtlantis",
     "title": "Secrets of Atlantis",
     "place": "Puerto rico",
-    "length": 300
+    "duration": 300
   },
   {
     "id": 3,
     "image": "waveLore",
     "title": "Wave lore",
     "place": "Jerusalem",
-    "length": 300
+    "duration": 300
   }
 ]

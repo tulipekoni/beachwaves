@@ -1,23 +1,36 @@
-import { createContext, useState } from "react";
-
+import { createContext, useState, useEffect } from "react";
+import { func } from "../constraints";
 export const AppContext = createContext();
-
 export const AppContextProvider = ({ children }) => {
+  // States for playing
+  // /////////////////////////////////////////////////////////////////////////////
   const [currentTrack, setCurrentTrack] = useState({
     title: "Evening splash",
     place: "Costa rica",
     image: "eveningSplash",
-    length: 120,
-    current: 110,
+    duration: 120,
   });
+  const [playState, setPlayState] = useState({
+    current: 110,
+    duration: 120,
+  });
+  const [paused, setPaused] = useState(true);
+  const [intervalId, setIntervalId] = useState(0);
 
+  func.useInterval(
+    () => {
+      setPlayState({ ...playState, current: playState.current + 1 });
+    },
+    paused ? null : 1000
+  );
+  // Searching states
+  // /////////////////////////////////////////////////////////////////////////////
   const [lastSearched, setLastSearched] = useState([
     {
       title: "Evening splash",
       place: "Costa rica",
       image: "eveningSplash",
-      length: 120,
-      current: 110,
+      duration: 120,
     },
   ]);
 
@@ -28,9 +41,11 @@ export const AppContextProvider = ({ children }) => {
     ]);
   }
 
+  // Other functions
+  // /////////////////////////////////////////////////////////////////////////////
   function setCurrentTrackFunction(track) {
     setCurrentTrack(track);
-    track.current = 0;
+    setPlayState({ ...playState, duration: track.duration, current: 0 });
   }
 
   return (
@@ -40,6 +55,10 @@ export const AppContextProvider = ({ children }) => {
         setCurrentTrack: setCurrentTrackFunction,
         lastSearched,
         appendToLastSearched,
+        playState,
+        setPlayState,
+        paused,
+        setPaused,
       }}
     >
       {children}
