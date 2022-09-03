@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-import { Image, Text, View } from "react-native";
+import React, { useContext, useEffect, useRef } from "react";
+import { Animated, Image, Text, View } from "react-native";
 import { BoxButton } from "../components/BoxButton";
 import ScreenArea from "../components/ScreenArea";
 import { Slider } from "../components/Slider";
@@ -14,11 +14,40 @@ import { images } from "../constraints";
 import { colors, func } from "../constraints";
 import SvgPause from "../icons/Svg.Pause";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
+import LottieView from "lottie-react-native";
 
 export const Playing = ({ navigation }) => {
-  const { currentTrack, playState, setPaused, paused } = useContext(AppContext);
+  const {
+    currentTrack,
+    playState,
+    setPaused,
+    paused,
+    ManipulateLikedTracks,
+    likedTracks,
+  } = useContext(AppContext);
   const timeElapsed = func.formatTime(playState.current);
   const timeLeft = func.formatTime(playState.duration - playState.current);
+
+  const heartProgress = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    if (likedTracks.includes(currentTrack.id)) {
+      heartProgress.setValue(1);
+      return;
+    }
+  }, []);
+  function heartClicked() {
+    ManipulateLikedTracks(currentTrack.id);
+    if (likedTracks.includes(currentTrack.id)) {
+      heartProgress.setValue(0);
+      return;
+    }
+    Animated.timing(heartProgress, {
+      toValue: 1,
+      duration: 750,
+      useNativeDriver: true,
+    }).start();
+  }
   return (
     <ScreenArea style={{ paddingTop: 30 }}>
       <View
@@ -58,17 +87,40 @@ export const Playing = ({ navigation }) => {
         />
       </View>
       <View
-        style={{ alignItems: "center", marginTop: 30, marginHorizontal: 44 }}
+        style={{
+          position: "relative",
+          marginTop: 30,
+          marginHorizontal: 44,
+        }}
       >
-        <Title color={colors.black}>{currentTrack.title}</Title>
-        <Subtitle>{currentTrack.place}</Subtitle>
-        <View style={{ height: 21 }} />
-        <Slider
-          timeElapsed={timeElapsed}
-          timeLeft={timeLeft}
-          current={playState.current}
-          max={playState.duration}
-        />
+        <TouchableWithoutFeedback
+          onPress={() => heartClicked()}
+          containerStyle={{
+            width: 80,
+            height: 80,
+            right: -20,
+            top: -25,
+            position: "absolute",
+            zIndex: 10,
+          }}
+          style={{ height: "100%" }}
+        >
+          <LottieView
+            progress={heartProgress}
+            source={require("../assets/heart.json")}
+          />
+        </TouchableWithoutFeedback>
+        <View style={{ alignItems: "center" }}>
+          <Title color={colors.black}>{currentTrack.title}</Title>
+          <Subtitle>{currentTrack.place}</Subtitle>
+          <View style={{ height: 21 }} />
+          <Slider
+            timeElapsed={timeElapsed}
+            timeLeft={timeLeft}
+            current={playState.current}
+            max={playState.duration}
+          />
+        </View>
       </View>
       <View
         style={{

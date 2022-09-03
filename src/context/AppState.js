@@ -41,6 +41,18 @@ export const AppContextProvider = ({ children }) => {
     ]);
   }
 
+  // Liked states
+  // /////////////////////////////////////////////////////////////////////////////
+  const [likedTracks, setLikedTracks] = useState([1]);
+
+  function ManipulateLikedTracks(id) {
+    if (likedTracks.includes(id)) {
+      setLikedTracks(likedTracks.filter((trackID) => trackID != id));
+    } else {
+      setLikedTracks([...likedTracks, id]);
+    }
+  }
+
   // Other functions
   // /////////////////////////////////////////////////////////////////////////////
   function setCurrentTrackFunction(track) {
@@ -59,6 +71,9 @@ export const AppContextProvider = ({ children }) => {
         setPlayState,
         paused,
         setPaused,
+
+        likedTracks,
+        ManipulateLikedTracks,
       }}
     >
       {children}
