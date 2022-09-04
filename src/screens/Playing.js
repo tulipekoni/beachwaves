@@ -15,6 +15,7 @@ import { colors, func } from "../constraints";
 import SvgPause from "../icons/Svg.Pause";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import LottieView from "lottie-react-native";
+import SvgHeart from "../icons/Svg.Heart";
 
 export const Playing = ({ navigation }) => {
   const {
@@ -66,8 +67,8 @@ export const Playing = ({ navigation }) => {
         <View style={{ opacity: 0.5 }}>
           <SubHeading>Now playing</SubHeading>
         </View>
-        <BoxButton>
-          <SvgMenu />
+        <BoxButton onPress={() => navigation.navigate("liked")}>
+          <SvgHeart size={20} />
         </BoxButton>
       </View>
       <View

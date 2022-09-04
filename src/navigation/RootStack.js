@@ -5,6 +5,7 @@ import { createSharedElementStackNavigator } from "react-navigation-shared-eleme
 import { Home } from "../screens/Home";
 import { Playing } from "../screens/Playing";
 import { Search } from "../screens/Search";
+import { Liked } from "../screens/Liked";
 const Stack = createSharedElementStackNavigator();
 
 export const RootStack = () => {
@@ -29,6 +30,7 @@ export const RootStack = () => {
           }}
           component={Search}
         />
+        <Stack.Screen name='liked' component={Liked} />
       </Stack.Navigator>
     </NavigationContainer>
   );
