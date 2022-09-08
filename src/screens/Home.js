@@ -21,8 +21,8 @@ export const Home = ({ navigation }) => {
           alignItems: "flex-end",
         }}
       >
-        <BoxButton>
-          <SvgMenu />
+        <BoxButton onPress={() => navigation.navigate("liked")}>
+          <SvgHeart size={20} />
         </BoxButton>
       </View>
       <View style={{ marginLeft: 30, marginRight: 75 }}>

@@ -11,10 +11,19 @@ import SvgCross from "../icons/Svg.cross";
 import { images } from "../constraints";
 import SvgPlay from "../icons/Svg.Play";
 import { AppContext } from "../context/AppState";
-
+import tracks from "../mockdata/tracks.json";
+import { useEffect } from "react";
 export const Liked = ({ navigation }) => {
-  const { likedTracks } = useContext(AppContext);
-  const [listData, setListData] = useState();
+  const { likedTracks, setCurrentTrack } = useContext(AppContext);
+  const [listData, setListData] = useState(null);
+  function playTrack(track) {
+    setCurrentTrack(track);
+    navigation.navigate("playing");
+  }
+
+  useEffect(() => {
+    setListData(tracks.filter((track) => likedTracks.includes(track.id)));
+  }, [navigation]);
 
   return (
     <ScreenArea style={{ paddingTop: 30 }}>
@@ -26,6 +35,7 @@ export const Liked = ({ navigation }) => {
           flexDirection: "row",
           alignItems: "center",
           opacity: 0.5,
+          marginBottom: 32,
         }}
       >
         <Heading>Liked Waves</Heading>
@@ -38,6 +48,7 @@ export const Liked = ({ navigation }) => {
       </View>
       <FlatList
         data={listData}
+        ListEmptyComponent={<Subtitle>List Empty</Subtitle>}
         renderItem={({ item, index }) => (
           <TrackItem item={item} onPress={() => playTrack(item)} />
         )}
