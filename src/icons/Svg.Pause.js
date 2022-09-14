@@ -12,7 +12,7 @@ const SvgPause = ({ fill, size }) => (
   >
     <Path
       d='M32 32a1 1 0 01-1 1h-2a1 1 0 01-1-1V18a1 1 0 011-1h2a1 1 0 011 1v14zM22 32a1 1 0 01-1 1h-2a1 1 0 01-1-1V18a1 1 0 011-1h2a1 1 0 011 1v14z'
-      fill='#E9EDF9'
+      fill={fill}
     />
   </Svg>
 );

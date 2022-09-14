@@ -68,6 +68,11 @@ function useInterval(callback, delay) {
     }
   }, [delay]);
 }
+// inverselerp -function
+// /////////////////////////////////////////////////////////////////////////////
+const InvLerp = (a, b, value) => {
+  return (value - a) / (b - a);
+};
 
 export default {
   cacheImages,
@@ -75,4 +80,5 @@ export default {
   formatTime,
   filterTracksWithSearchPhrase,
   useInterval,
+  InvLerp,
 };

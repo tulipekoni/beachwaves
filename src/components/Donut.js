@@ -1,107 +1,83 @@
-import * as React from "react";
-import {
-  Easing,
-  TextInput,
-  Animated,
-  View,
-  StyleSheet,
-  Text,
-} from "react-native";
+import React, { useContext, useEffect } from "react";
+import { View } from "react-native";
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
+import Animated, {
+  cancelAnimation,
+  useAnimatedProps,
+  useSharedValue,
+  withTiming,
+} from "react-native-reanimated";
 import Svg, { G, Circle, Path } from "react-native-svg";
+import { func } from "../constraints";
 import colors from "../constraints/colors";
+import { AppContext } from "../context/AppState";
 import SvgPlay from "../icons/Svg.Play";
+import SvgPause from "../icons/Svg.Pause";
 
-const AnimatedTextInput = Animated.createAnimatedComponent(TextInput);
+const STROKE = 6;
+const RADIUS = 28;
+const CIRCLE_LENGHT = 2 * Math.PI * RADIUS;
 
-export default function Donut({
-  percentage = 75,
-  radius = 32,
-  strokeWidth = 5,
-  duration = 500,
-  color = "tomato",
-  delay = 0,
-  textColor,
-  max = 100,
-}) {
-  const animated = React.useRef(new Animated.Value(0)).current;
-  const circleRef = React.useRef();
-  const inputRef = React.useRef();
-  const circumference = 2 * Math.PI * radius;
-  const halfCircle = radius + strokeWidth;
+const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
-  const animation = (toValue) => {
-    return Animated.timing(animated, {
-      delay: 1000,
-      toValue,
-      duration,
-      useNativeDriver: true,
-      easing: Easing.out(Easing.ease),
-    }).start(() => {
-      animation(toValue === 0 ? percentage : 0);
+export default function Donut() {
+  const { currentTrack, paused, playState, setPaused } = useContext(AppContext);
+
+  const progress = useSharedValue(
+    func.InvLerp(0, playState.duration, playState.current)
+  );
+
+  useEffect(() => {
+    if (paused) {
+      cancelAnimation(progress);
+      return;
+    }
+    progress.value = withTiming(1, {
+      duration: (playState.duration - playState.current) * 1000,
     });
-  };
+  }, [paused]);
 
-  // React.useEffect(() => {
-  //   animation(percentage);
-  //   animated.addListener(
-  //     (v) => {
-  //       const maxPerc = (100 * v.value) / max;
-  //       const strokeDashoffset =
-  //         circumference - (circumference * maxPerc) / 100;
-  //       if (inputRef?.current) {
-  //         inputRef.current.setNativeProps({
-  //           text: `${Math.round(v.value)}`,
-  //         });
-  //       }
-  //       if (circleRef?.current) {
-  //         circleRef.current.setNativeProps({
-  //           strokeDashoffset,
-  //         });
-  //       }
-  //     },
-  //     [max, percentage]
-  //   );
-
-  //   return () => {
-  //     animated.removeAllListeners();
-  //   };
-  // });
-
+  useEffect(() => {
+    progress.value = 0;
+    progress.value = withTiming(1, {
+      duration: playState.duration * 1000,
+    });
+  }, [currentTrack.id]);
+  const animatedProps = useAnimatedProps(() => ({
+    strokeDashoffset: CIRCLE_LENGHT * (1 - progress.value),
+  }));
   return (
-    <View
+    <TouchableWithoutFeedback
+      onPress={() => setPaused(!paused)}
       style={{
-        width: radius * 2,
-        height: radius * 2,
+        width: RADIUS * 2 + STROKE,
+        height: RADIUS * 2 + STROKE,
+        alignItems: "center",
+        justifyContent: "center",
         position: "relative",
       }}
     >
-      <Svg
-        height={radius * 2}
-        width={radius * 2}
-        viewBox={`0 0 ${halfCircle * 2} ${halfCircle * 2}`}
-      >
-        <G rotation='-90' origin={`${halfCircle}, ${halfCircle}`}>
+      <Svg>
+        <G
+          rotation='-90'
+          origin={`${RADIUS + STROKE / 2}, ${RADIUS + STROKE / 2}`}
+        >
           <Circle
-            ref={circleRef}
-            cx='50%'
-            cy='50%'
-            r={radius}
-            fill='transparent'
-            stroke={color}
-            strokeWidth={strokeWidth}
-            strokeLinecap='round'
-            strokeDashoffset={circumference}
-            strokeDasharray={circumference}
+            cx={"50%"}
+            cy={"50%"}
+            r={RADIUS}
+            strokeWidth={STROKE}
+            stroke={colors.white20}
           />
-          <Circle
-            cx='50%'
-            cy='50%'
-            r={radius}
-            fill='transparent'
-            stroke={color}
-            strokeWidth={strokeWidth}
-            strokeLinejoin='round'
-            strokeOpacity='.1'
+          <AnimatedCircle
+            cx={"50%"}
+            cy={"50%"}
+            r={RADIUS}
+            strokeWidth={STROKE}
+            stroke={colors.primary}
+            strokeDasharray={CIRCLE_LENGHT}
+            animatedProps={animatedProps}
+            strokeLinecap='round'
           />
         </G>
       </Svg>
@@ -114,26 +90,11 @@ export default function Donut({
           bottom: 0,
           justifyContent: "center",
           alignItems: "center",
+          paddingLeft: paused ? 3 : 0,
         }}
       >
-        <SvgPlay />
+        {paused ? <SvgPlay /> : <SvgPause fill={colors.primary} size={50} />}
       </View>
-
-      {/* <AnimatedTextInput
-        ref={inputRef}
-        underlineColorAndroid='transparent'
-        editable={false}
-        defaultValue='0'
-        style={[
-          StyleSheet.absoluteFillObject,
-          { fontSize: radius / 2, color: textColor ?? color },
-          styles.text,
-        ]}
-      /> */}
-    </View>
+    </TouchableWithoutFeedback>
   );
 }
-
-const styles = StyleSheet.create({
-  text: { fontWeight: "900", textAlign: "center" },
-});

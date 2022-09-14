@@ -11,7 +11,7 @@ export const AppContextProvider = ({ children }) => {
     duration: 120,
   });
   const [playState, setPlayState] = useState({
-    current: 110,
+    current: 30,
     duration: 120,
   });
   const [paused, setPaused] = useState(true);
