@@ -29,7 +29,7 @@ export const Search = ({ navigation }) => {
   function playTrack(track) {
     setCurrentTrack(track);
     appendToLastSearched(track);
-    navigation.navigate("playing");
+    navigation.navigate("playing", { track });
   }
   function onSearchPhraseChange(newSearchPhrase) {
     setSearchPhrase(newSearchPhrase);
@@ -99,7 +99,7 @@ const TrackItem = ({ item, onPress }) => {
       <Image
         style={{ width: 70, height: 70, borderRadius: 30 }}
         source={images[item.image]}
-      ></Image>
+      />
       <View
         style={{
           paddingLeft: 20,

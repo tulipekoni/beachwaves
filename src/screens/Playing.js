@@ -30,7 +30,7 @@ export const Playing = ({ navigation }) => {
   const timeLeft = func.formatTime(playState.duration - playState.current);
 
   const heartProgress = useRef(new Animated.Value(0)).current;
-
+  console.log(currentTrack);
   useEffect(() => {
     if (likedTracks.includes(currentTrack.id)) {
       heartProgress.setValue(1);

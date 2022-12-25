@@ -5,8 +5,6 @@ import * as Font from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
 
-import { Provider } from "react-redux";
-
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { ThemeProvider } from "styled-components";
 
@@ -17,7 +15,6 @@ import {
 } from "@expo-google-fonts/poppins";
 
 import colors from "./src/constraints/colors";
-import { store } from "./src/state/store";
 import { RootStack } from "./src/navigation/RootStack";
 import { AppContextProvider } from "./src/context/AppState";
 
@@ -67,17 +64,15 @@ export default function App() {
   }
 
   return (
-    <Provider store={store}>
-      <AppContextProvider>
-        <View onLayout={onLayoutRootView} style={{ flex: 1 }}>
-          <ThemeProvider theme={colors}>
-            <SafeAreaProvider>
-              <RootStack />
-            </SafeAreaProvider>
-          </ThemeProvider>
-        </View>
-        <StatusBar style='auto' />
-      </AppContextProvider>
-    </Provider>
+    <AppContextProvider>
+      <View onLayout={onLayoutRootView} style={{ flex: 1 }}>
+        <ThemeProvider theme={colors}>
+          <SafeAreaProvider>
+            <RootStack />
+          </SafeAreaProvider>
+        </ThemeProvider>
+      </View>
+      <StatusBar style='auto' />
+    </AppContextProvider>
   );
 }

@@ -1,12 +1,11 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
-import { createSharedElementStackNavigator } from "react-navigation-shared-element";
 import { Home } from "../screens/Home";
 import { Playing } from "../screens/Playing";
 import { Search } from "../screens/Search";
 import { Liked } from "../screens/Liked";
-const Stack = createSharedElementStackNavigator();
+import { createStackNavigator } from "@react-navigation/stack";
+const Stack = createStackNavigator();
 
 export const RootStack = () => {
   return (
@@ -15,14 +14,15 @@ export const RootStack = () => {
         initialRouteName='home'
         screenOptions={{ headerShown: false }}
       >
+        <Stack.Screen name='home' component={Home} />
         <Stack.Screen
-          name='home'
-          component={Home}
-          sharedElements={() => {
-            return ["shared"];
+          name='playing'
+          component={Playing}
+          sharedElements={(navigation, otherNavigation, showing) => {
+            const track = navigation.getParam("track");
+            return [track.title];
           }}
         />
-        <Stack.Screen name='playing' component={Playing} />
         <Stack.Screen
           name='search'
           sharedElements={() => {

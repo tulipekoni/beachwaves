@@ -23,6 +23,7 @@ export const AppContextProvider = ({ children }) => {
     },
     paused ? null : 1000
   );
+
   // Searching states
   // /////////////////////////////////////////////////////////////////////////////
   const [lastSearched, setLastSearched] = useState([
