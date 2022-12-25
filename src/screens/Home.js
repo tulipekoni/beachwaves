@@ -52,7 +52,7 @@ export const Home = ({ navigation }) => {
         </TouchableWithoutFeedback>
       </View>
       <SubHeading style={{ margin: 20 }}>Popular tracks right now</SubHeading>
-      <View style={{ backgroundColor: colors.white00, flex: 1 }}>
+      <View style={{ flex: 1 }}>
         <TrackCarousel />
       </View>
       <SubHeading style={{ margin: 20 }}>Playing</SubHeading>
