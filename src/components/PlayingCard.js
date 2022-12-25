@@ -41,7 +41,7 @@ export const PlayingCard = () => {
             marginLeft: "auto",
           }}
         >
-          <Donut percentage={65} color={colors.primary} delay={500} max={100} />
+          <Donut />
         </View>
       </View>
     </TouchableWithoutFeedback>

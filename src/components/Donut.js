@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { View } from "react-native";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import Animated, {
@@ -22,6 +22,7 @@ const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
 export default function Donut() {
   const { currentTrack, paused, playState, setPaused } = useContext(AppContext);
+  const [firstRender, setFirstRender] = useState(true);
 
   const progress = useSharedValue(
     func.InvLerp(0, playState.duration, playState.current)
@@ -37,12 +38,21 @@ export default function Donut() {
     });
   }, [paused]);
 
+  //Every time the trackId changes we know that the user selected a new track, let's run it
   useEffect(() => {
+    //This gets run on the first render. The current track is always paused at start so lets ignore this function on the first render
+    if (firstRender) return;
+
     progress.value = 0;
     progress.value = withTiming(1, {
       duration: playState.duration * 1000,
     });
   }, [currentTrack.id]);
+
+  useEffect(() => {
+    setFirstRender(false);
+  }, []);
+
   const animatedProps = useAnimatedProps(() => ({
     strokeDashoffset: CIRCLE_LENGHT * (1 - progress.value),
   }));
