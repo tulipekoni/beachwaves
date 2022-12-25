@@ -6,11 +6,15 @@ import Animated, {
   useAnimatedStyle,
 } from "react-native-reanimated";
 
+import { BlurView } from "expo-blur";
+import styled from "styled-components/native";
+
 import { images } from "../constraints";
-import { SubHeading } from "../constraints/typography";
+import { Title, Subtitle } from "../constraints/typography";
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 const CURRENT_ITEM_TRANSLATE_Y = 0.8;
-export const CarouselCard = ({ item, index, cardSize, scrollX }) => {
+export const CarouselCard = ({ item, index, cardSize, scrollX, playTrack }) => {
   if (!item.title) {
     return (
       <View
@@ -49,37 +53,61 @@ export const CarouselCard = ({ item, index, cardSize, scrollX }) => {
   });
 
   return (
-    <Animated.View
-      style={[
-        animatedStyle,
-        {
-          height: "100%",
-          alignItems: "center",
-          width: cardSize,
-        },
-      ]}
-    >
-      <Image
-        source={images[item.image]}
-        style={{
-          height: cardSize,
-          width: cardSize,
-          borderRadius: 32,
-        }}
-      ></Image>
-      <View
-        style={{
-          position: "absolute",
-          bottom: 12,
-          left: 12,
-          right: 12,
-          borderRadius: 32,
-          backgroundColor: "rgba(255, 255, 255, 0.3)",
-          height: "40%",
-        }}
+    <TouchableWithoutFeedback onPress={() => playTrack(item)}>
+      <Animated.View
+        style={[
+          animatedStyle,
+          {
+            height: "100%",
+            alignItems: "center",
+            width: cardSize,
+          },
+        ]}
       >
-        <SubHeading>{item.title}</SubHeading>
-      </View>
-    </Animated.View>
+        <Image
+          source={images[item.image]}
+          style={{
+            height: cardSize,
+            width: cardSize,
+            borderRadius: 32,
+          }}
+        ></Image>
+        <View
+          style={{
+            position: "absolute",
+            bottom: 12,
+            left: 12,
+            right: 12,
+            height: "40%",
+            borderRadius: 32,
+            overflow: "hidden",
+          }}
+        >
+          <BlurView
+            style={{
+              width: "100%",
+              height: "100%",
+              justifyContent: "center",
+              padding: 24,
+            }}
+            intensity={50}
+            tint='light'
+          >
+            <View style={{ width: "100%" }}>
+              <CardTitle>{item.title}</CardTitle>
+              <CardSubTitle>{item.place}</CardSubTitle>
+            </View>
+          </BlurView>
+        </View>
+      </Animated.View>
+    </TouchableWithoutFeedback>
   );
 };
+
+const CardTitle = styled(Title)`
+  font-size: 18px;
+`;
+const CardSubTitle = styled(Subtitle)`
+  font-size: 14px;
+  color: #fff;
+`;

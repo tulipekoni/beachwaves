@@ -53,7 +53,7 @@ export const Home = ({ navigation }) => {
       </View>
       <SubHeading style={{ margin: 20 }}>Popular tracks right now</SubHeading>
       <View style={{ flex: 1 }}>
-        <TrackCarousel />
+        <TrackCarousel navigation={navigation} />
       </View>
       <SubHeading style={{ margin: 20 }}>Playing</SubHeading>
       <View style={{ margin: 30, marginTop: 0 }}>
