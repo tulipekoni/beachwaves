@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState } from "react";
 import { func } from "../constraints";
 export const AppContext = createContext();
 export const AppContextProvider = ({ children }) => {
