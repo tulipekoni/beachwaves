@@ -1,15 +1,14 @@
 import React from "react";
-import { Image, Text, View } from "react-native";
+import { View } from "react-native";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
-import { BoxButton } from "../components/BoxButton";
-import Donut from "../components/Donut";
-import ScreenArea from "../components/ScreenArea";
-import colors from "../constraints/colors";
-import { Heading, SubHeading, Title } from "../constraints/typography";
-import SvgMenu from "../icons/Svg.Menu";
-import SvgSearch from "../icons/Svg.Search";
 
+import colors from "../constraints/colors";
+import SvgSearch from "../icons/Svg.Search";
+import ScreenArea from "../components/ScreenArea";
+import { BoxButton } from "../components/BoxButton";
 import { PlayingCard } from "../components/PlayingCard";
+import { TrackCarousel } from "../components/TrackCarousel";
+import { Heading, SubHeading, Title } from "../constraints/typography";
 
 export const Home = ({ navigation }) => {
   return (
@@ -52,9 +51,11 @@ export const Home = ({ navigation }) => {
           <Title style={{ marginLeft: 10 }}>Search place</Title>
         </TouchableWithoutFeedback>
       </View>
-      <SubHeading style={{ margin: 30 }}>Popular tracks right now</SubHeading>
-      <View style={{ backgroundColor: colors.white00, flex: 1 }}></View>
-      <SubHeading style={{ margin: 30 }}>Playing</SubHeading>
+      <SubHeading style={{ margin: 20 }}>Popular tracks right now</SubHeading>
+      <View style={{ backgroundColor: colors.white00, flex: 1 }}>
+        <TrackCarousel />
+      </View>
+      <SubHeading style={{ margin: 20 }}>Playing</SubHeading>
       <View style={{ margin: 30, marginTop: 0 }}>
         <PlayingCard />
       </View>
