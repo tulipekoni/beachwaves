@@ -40,7 +40,7 @@ export const Liked = ({ navigation }) => {
       >
         <Heading>Liked Waves</Heading>
         <TouchableWithoutFeedback
-          onPress={() => navigation.navigate("home")}
+          onPress={() => navigation.goBack()}
           style={{ padding: 16 }}
         >
           <SvgCross />
