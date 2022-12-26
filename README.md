@@ -5,7 +5,7 @@
 ##### Frontend only application where a user can listen to calming beachwaves from all around the world.
 
 <p align="center">
-  <img src="screenshots/screenshare1.jpg?raw=true" />
+  <img src="screenshots/screenshot1.jpg?raw=true" />
 </p>
 
 ## Install & Build
