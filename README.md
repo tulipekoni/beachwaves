@@ -1,4 +1,4 @@
-## beachWaves - expo mobile app
+## BeachWaves - expo mobile app
 
 [![portfolio www.konttila.dev](https://img.shields.io/badge/Portfolio-konttila.dev-green?style=for-the-badge&color=58d674&labelColor=3)](https://konttila.dev)
 
@@ -20,3 +20,4 @@ Run Project Locally: `npx expo start`
 
 - **onBoarding screen:** Add an onboarding screen when the app is launched.
 - **Skip to the next track:** Currently the app doesn't allow going to the next track. Also the track does not change when the timer runs out.
+- **Shared animations:** Add shared animation support between the screens.
